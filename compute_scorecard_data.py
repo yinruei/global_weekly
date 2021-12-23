@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from compute_scorecard_wind_data import compute_windspeed_rmse_weekly_score, compute_windspeed_bias_weekly_score, compute_windspeed_pco_weekly_score
-
+print('dddddddddddd')
 # FILENAME = 'HGT_P500_G2_2021102420211123.txt'
 # 設定螢幕輸出格式
 pd.set_option('display.max_columns', None)
