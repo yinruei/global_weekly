@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    model1 = 'JMA_GFS_JG06' #CWB_GFS_GH0D
-    model2 = 'EC_GFS_EC05' # EC_GFS_EC05, NCEP_GFS_NA05, JMA_GFS_JG06
+    model1 = 'CWB_GFS_GH0D' #CWB_GFS_GH0D
+    model2 = 'JMA_GFS_JG06' # EC_GFS_EC05, NCEP_GFS_NA05, JMA_GFS_JG06
     rmse_data_list = convert_rmse_weekly_score(model1, model2)
     pco_data_list = convert_pco_weekly_score(model1, model2)
     bias_data_list = convert_bias_weekly_score(model1, model2)
@@ -38,68 +38,32 @@ def index():
             # print(key, datas.keys())
             if key in tmp.keys():
                 tmp[key].extend(value)
-                # print('key', key)
-                # print('jjjj', value)
-                # print(tmp['key'])
-                # tmp[key].append(value)
             else:
-                # print('nononon')
-                # tmp[key] = list()
                 value_list = [value]
                 tmp[key] = value
-                # tmp[key] = list()
-                # tmp[key].append(value)
-            # print('tmp--->', tmp)
             bias_score_data.append(tmp)
-
-    # print('_list----------', _list, len(_list))
-    # print('bias_score_data', bias_score_data)
 
     tmp = {}
     pco_score_data = []
     for datas in pco_data_list:
         for key, value in datas.items():
-            # print(key, datas.keys())
             if key in tmp.keys():
                 tmp[key].extend(value)
-                # print('key', key)
-                # print('jjjj', value)
-                # print(tmp['key'])
-                # tmp[key].append(value)
             else:
-                # print('nononon')
-                # tmp[key] = list()
                 value_list = [value]
                 tmp[key] = value
-                # tmp[key] = list()
-                # tmp[key].append(value)
-            # print('tmp--->', tmp)
             pco_score_data.append(tmp)
 
-    # print('_list----------', _list, len(_list))
-    # print('pco_score_data', pco_score_data)
     tmp = {}
     rms_score_data = []
     for datas in rmse_data_list:
         for key, value in datas.items():
-            # print(key, datas.keys())
             if key in tmp.keys():
                 tmp[key].extend(value)
-                # print('key', key)
-                # print('jjjj', value)
-                # print(tmp['key'])
-                # tmp[key].append(value)
             else:
-                # print('nononon')
-                # tmp[key] = list()
                 value_list = [value]
                 tmp[key] = value
-                # tmp[key] = list()
-                # tmp[key].append(value)
-            # print('tmp--->', tmp)
             rms_score_data.append(tmp)
-
-    # print('rms_score_data', rms_score_data)
 
     rms_rowspan = len(rms_score_data[0]) + 1
     pco_rowspan = len(pco_score_data[0]) + 1
@@ -107,14 +71,17 @@ def index():
 
     start_time = '2021102300'
     end_time = '2021112400'
-    region_colspan = len(get_week())
+
+    week = [f'week{num_week}'  for num_week in range(1, get_week() + 1)]
+
+    region_colspan = len(week)
 
     data = {
             'start_time': start_time,
             'end_time': end_time,
             'region': get_region(),
             'region_colspan': region_colspan,
-            'week': get_week(),
+            'week': week,
             'model1': model1,
             'model2': model2,
             'rms_rowspan': rms_rowspan,
